@@ -12,6 +12,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
     <Card
       sx={{
         width: 500,
+        maxWidth: "80vw",
         position: "absolute",
         top: "50%",
         left: "50%",
