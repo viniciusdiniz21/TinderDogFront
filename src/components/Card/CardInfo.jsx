@@ -31,7 +31,7 @@ const InfoCard = ({
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        height: "70vh",
+        height: { xs: 400, sm: "70vh" },
         overflowY: "scroll",
       }}
       elevation={10}

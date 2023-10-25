@@ -6,6 +6,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClearIcon from "@mui/icons-material/Clear";
 import Slider from "../Slider/Slider";
 import { Box, Divider, Typography } from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const TinderCard = ({ images, onLike, onDislike, setCard }) => {
   return (
@@ -17,7 +18,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        height: "70vh",
+        height: { xs: 400, sm: "70vh" },
       }}
       elevation={10}
     >
@@ -33,18 +34,20 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
           fontWeight={600}
           color="primary"
           variant="h5"
-          sx={{ textDecoration: "underline" }}
         >
           Cachorro - Vira-Lata
         </Typography>
-        <Typography
-          textAlign="left"
-          fontWeight={600}
-          color="primary"
-          variant="body1"
-        >
-          Araxá, MG
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <LocationOnIcon color="primary" />
+          <Typography
+            textAlign="left"
+            fontWeight={600}
+            color="primary"
+            variant="body1"
+          >
+            Araxá, MG
+          </Typography>
+        </Box>
       </Box>
       <Divider sx={{ m: 1 }} />
       <CardContent sx={{ display: "flex", justifyContent: "space-around" }}>
