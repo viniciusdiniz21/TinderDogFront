@@ -6,7 +6,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #fff;
+  background-color: #e7f0ea;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -45,6 +45,20 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+*::-webkit-scrollbar {
+  width: 2px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #9da0af;
+  border-radius: 2px;
+  border: 1px solid #ffffff;
 }
 
 @media (prefers-color-scheme: light) {

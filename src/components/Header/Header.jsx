@@ -1,7 +1,6 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -11,11 +10,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { ListItemIcon, Tooltip } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import PersonIcon from "@mui/icons-material/Person";
+import logo from "../../assets/logo.png";
 
 const drawerWidth = 240;
 
@@ -29,9 +27,9 @@ export default function Header(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        TINDERDOG
-      </Typography>
+      <Box sx={{ width: 48, height: 48, margin: "0 auto", mt: 2, mb: 2 }}>
+        <img style={{ maxWidth: "100%" }} src={logo} />
+      </Box>
       <Divider />
       <List>
         <ListItem disablePadding>
@@ -59,8 +57,7 @@ export default function Header(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{ display: "flex" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -71,15 +68,16 @@ export default function Header(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            color="secondary"
-            fontWeight={700}
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+              ml: { xs: "none", sm: "8vw" },
+              cursor: "pointer",
+            }}
           >
-            TINDERDOG
-          </Typography>
+            <img style={{ maxWidth: "4vw" }} src={logo} />
+          </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <ListItem disablePadding>
               <Tooltip title="Pets">

@@ -9,7 +9,6 @@ const Slider = ({ images }) => {
       hasDots
       slidesToShow={1}
       slidesToScroll={images.lenght}
-      scrollLock
     >
       {images.map((image, index) => (
         <div key={index}>
