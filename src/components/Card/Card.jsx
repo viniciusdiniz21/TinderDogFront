@@ -18,7 +18,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        height: { xs: 400, sm: "70vh" },
+        height: { xs: 450, sm: "70vh" },
       }}
       elevation={10}
     >
