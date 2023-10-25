@@ -2,6 +2,7 @@ import "./App.css";
 import TinderCard from "./components/Card/Card";
 import "glider-js/glider.min.css";
 import img from "./assets/banco2.png";
+import Header from "./components/Header/Header";
 
 function App() {
   const handleLike = () => {
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <TinderCard
         images={images}
         onLike={handleLike}

@@ -9,7 +9,16 @@ import { Divider } from "@mui/material";
 
 const TinderCard = ({ images, onLike, onDislike }) => {
   return (
-    <Card sx={{ width: 500 }}>
+    <Card
+      sx={{
+        width: 500,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
+      elevation={10}
+    >
       <Slider images={images} />
       <Divider sx={{ m: 1 }} />
       <CardContent sx={{ display: "flex", justifyContent: "space-around" }}>
