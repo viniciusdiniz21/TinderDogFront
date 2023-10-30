@@ -7,6 +7,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Slider from "../Slider/Slider";
 import { Box, Divider, Typography } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { grey } from "@mui/material/colors";
 
 const TinderCard = ({ images, onLike, onDislike, setCard }) => {
   return (
@@ -19,6 +20,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
         left: "50%",
         transform: "translate(-50%, -50%)",
         height: { xs: 450, sm: "70vh" },
+        borderRadius: "18px",
       }}
       elevation={10}
     >
@@ -34,6 +36,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
           fontWeight={600}
           color="primary"
           variant="h5"
+          sx={{ fontFamily: "Poppins" }}
         >
           Cachorro - Vira-Lata
         </Typography>
@@ -44,6 +47,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
             fontWeight={600}
             color="primary"
             variant="body1"
+            sx={{ fontFamily: "Poppins" }}
           >
             Araxá, MG
           </Typography>
@@ -51,10 +55,22 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
       </Box>
       <Divider sx={{ m: 1 }} />
       <CardContent sx={{ display: "flex", justifyContent: "space-around" }}>
-        <IconButton onClick={onDislike}>
+        <IconButton
+          sx={{
+            transition: "background-color .7s",
+            "&:hover": { backgroundColor: grey[400] },
+          }}
+          onClick={onDislike}
+        >
           <ClearIcon color="warning" sx={{ fontSize: "2rem" }} />
         </IconButton>
-        <IconButton onClick={onLike}>
+        <IconButton
+          sx={{
+            transition: "background-color .7s",
+            "&:hover": { backgroundColor: grey[400] },
+          }}
+          onClick={onLike}
+        >
           <FavoriteIcon color="error" sx={{ fontSize: "2rem" }} />
         </IconButton>
       </CardContent>

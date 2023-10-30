@@ -33,6 +33,7 @@ const InfoCard = ({
         transform: "translate(-50%, -50%)",
         height: { xs: 450, sm: "70vh" },
         overflowY: "scroll",
+        borderRadius: "24px",
       }}
       elevation={10}
     >
@@ -49,10 +50,20 @@ const InfoCard = ({
             <PetsIcon color="primary" />
             <Divider />
           </Box>
-          <Typography variant="body2" color="text.secondary" textAlign="left">
+          <Typography
+            sx={{ fontFamily: "Poppins" }}
+            variant="body2"
+            color="text.secondary"
+            textAlign="left"
+          >
             Nome: {nome}
           </Typography>
-          <Typography variant="body2" color="text.secondary" textAlign="left">
+          <Typography
+            sx={{ fontFamily: "Poppins" }}
+            variant="body2"
+            color="text.secondary"
+            textAlign="left"
+          >
             Raça: {raca}
           </Typography>
         </Box>
@@ -61,10 +72,20 @@ const InfoCard = ({
             <InfoIcon color="primary" />
             <Divider />
           </Box>
-          <Typography variant="body2" color="text.secondary" textAlign="left">
+          <Typography
+            sx={{ fontFamily: "Poppins" }}
+            variant="body2"
+            color="text.secondary"
+            textAlign="left"
+          >
             Idade: {idade} anos
           </Typography>
-          <Typography variant="body2" color="text.secondary" textAlign="left">
+          <Typography
+            sx={{ fontFamily: "Poppins" }}
+            variant="body2"
+            color="text.secondary"
+            textAlign="left"
+          >
             Peso: {peso} kg
           </Typography>
         </Box>
@@ -73,18 +94,21 @@ const InfoCard = ({
             <LocationOnIcon color="primary" />
             <Divider />
           </Box>
-          <Typography variant="body2" color="text.secondary" textAlign="left">
+          <Typography
+            sx={{ fontFamily: "Poppins" }}
+            variant="body2"
+            color="text.secondary"
+            textAlign="left"
+          >
             {cidade}/{estado}
           </Typography>
         </Box>
       </CardContent>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          ml: 2,
-          mr: 2,
-          mb: 2,
+          position: "fixed",
+          bottom: 20,
+          right: 20,
         }}
       >
         <IconButton
