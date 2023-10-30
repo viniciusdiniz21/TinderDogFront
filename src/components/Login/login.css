@@ -1,0 +1,24 @@
+.image {
+  position: relative;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  background-position: center center;
+  background-size: contain;
+}
+.image::before {
+  content: "";
+  position: absolute;
+  background-image: url("../../assets/tindog.png");
+  background-position: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.8; /* Defina a opacidade desejada para a imagem aqui (0.5 é um exemplo) */
+  z-index: 0;
+}
+.image > * {
+  position: relative;
+  z-index: 1; /* Define o z-index dos elementos filhos para que fiquem acima da imagem de fundo */
+  opacity: 1; /* Define a opacidade dos elementos filhos como 1 */
+}

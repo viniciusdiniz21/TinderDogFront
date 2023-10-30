@@ -55,6 +55,7 @@ const InfoCard = ({
             variant="body2"
             color="text.secondary"
             textAlign="left"
+            fontWeight={700}
           >
             Nome: {nome}
           </Typography>
@@ -63,6 +64,7 @@ const InfoCard = ({
             variant="body2"
             color="text.secondary"
             textAlign="left"
+            fontWeight={700}
           >
             Raça: {raca}
           </Typography>
@@ -99,6 +101,7 @@ const InfoCard = ({
             variant="body2"
             color="text.secondary"
             textAlign="left"
+            fontWeight={700}
           >
             {cidade}/{estado}
           </Typography>
