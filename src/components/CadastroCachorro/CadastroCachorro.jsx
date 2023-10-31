@@ -66,7 +66,13 @@ const CadastroCachorro = () => {
     <Container>
       <Paper
         elevation={5}
-        sx={{ padding: "1rem 2rem", width: "50vw", minWidth: 280 }}
+        sx={{
+          padding: "1rem 2rem",
+          width: "50vw",
+          minWidth: 280,
+          maxHeight: "85vh",
+          overflowY: "scroll",
+        }}
       >
         <form
           style={{
