@@ -10,6 +10,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
+import SmsIcon from "@mui/icons-material/Sms";
 import { ListItemIcon, useTheme } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import PersonIcon from "@mui/icons-material/Person";
@@ -36,7 +37,7 @@ export default function Header(props) {
         <ListItem disablePadding>
           <ListItemButton sx={{ textAlign: "center" }}>
             <ListItemIcon>
-              <PetsIcon />
+              <PetsIcon color="primary" />
             </ListItemIcon>
             <ListItemText
               primary="Pets"
@@ -47,12 +48,20 @@ export default function Header(props) {
         <ListItem disablePadding>
           <ListItemButton sx={{ textAlign: "center" }}>
             <ListItemIcon>
-              <PersonIcon />
+              <PersonIcon color="primary" />
             </ListItemIcon>
             <ListItemText
               primary="Perfil"
               secondary="Configurações do usuário"
             />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton href="/mensagens" sx={{ textAlign: "center" }}>
+            <ListItemIcon>
+              <SmsIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Mensagens" />
           </ListItemButton>
         </ListItem>
       </List>
@@ -66,7 +75,7 @@ export default function Header(props) {
     <Box sx={{ display: "flex" }}>
       <AppBar
         component="nav"
-        sx={{ display: "flex", backgroundColor: theme.palette.secondary.dark }}
+        sx={{ display: "flex", backgroundColor: theme.palette.primary.dark }}
       >
         <Toolbar>
           <IconButton
