@@ -15,6 +15,7 @@ import { ListItemIcon, useTheme } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import PersonIcon from "@mui/icons-material/Person";
 import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -22,6 +23,7 @@ export default function Header(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -57,7 +59,10 @@ export default function Header(props) {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton href="/mensagens" sx={{ textAlign: "center" }}>
+          <ListItemButton
+            onClick={() => navigate("/mensagens")}
+            sx={{ textAlign: "center" }}
+          >
             <ListItemIcon>
               <SmsIcon color="primary" />
             </ListItemIcon>

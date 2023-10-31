@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Main from "../components/Main/Main";
 import { Login } from "../components/Login/Login";
 import Mensagens from "../components/Mensagens/Mensagens";
