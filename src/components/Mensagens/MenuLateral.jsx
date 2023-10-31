@@ -26,7 +26,7 @@ const MenuLateral = ({
             selected={index === conversaSelecionada}
           >
             <Avatar alt="Cachorro" src={conversa.foto} />
-            <ListItemText primary={conversa.nome} />
+            <ListItemText sx={{ color: "white" }} primary={conversa.nome} />
           </ListItem>
         ))}
       </List>
