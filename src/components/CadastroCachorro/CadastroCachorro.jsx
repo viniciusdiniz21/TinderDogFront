@@ -8,17 +8,29 @@ import {
   InputLabel,
   Container,
   Paper,
+  Box,
 } from "@mui/material";
 import logo from "../../assets/logo.png";
 import { PhotoCamera } from "@mui/icons-material";
+import { ReactCrop } from "react-image-crop";
 
 const CadastroCachorro = () => {
+  const [crop, setCrop] = useState({
+    unit: "%",
+    x: 25,
+    y: 25,
+    width: 50,
+    height: 50,
+    aspect: 1,
+    locked: true,
+  });
   const [formValues, setFormValues] = useState({
     nome: "",
     idade: "",
     peso: "",
     raca: "",
     foto: null,
+    fotoURL: null,
   });
 
   const handleChange = (event) => {
@@ -30,10 +42,18 @@ const CadastroCachorro = () => {
   };
 
   const handleFotoChange = (event) => {
-    setFormValues({
-      ...formValues,
-      foto: event.target.files[0],
-    });
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setFormValues({
+        ...formValues,
+        foto: file,
+        fotoURL: reader.result, // Armazena a URL da imagem
+      });
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = (event) => {
@@ -44,7 +64,10 @@ const CadastroCachorro = () => {
 
   return (
     <Container>
-      <Paper elevation={5} sx={{ padding: "1rem 2rem" }}>
+      <Paper
+        elevation={5}
+        sx={{ padding: "1rem 2rem", width: "50vw", minWidth: 280 }}
+      >
         <form
           style={{
             display: "flex",
@@ -93,6 +116,19 @@ const CadastroCachorro = () => {
               <MenuItem value="Poodle">Poodle</MenuItem>
             </Select>
           </FormControl>
+          <Box sx={{ maxWidth: "80%" }}>
+            {formValues.fotoURL != null && (
+              <ReactCrop
+                crop={crop}
+                onChange={(c) => setCrop(c)}
+                aspect={1}
+                maxHeight={300}
+                maxWidth={300}
+              >
+                <img style={{ maxWidth: "100%" }} src={formValues.fotoURL} />
+              </ReactCrop>
+            )}
+          </Box>
           <label htmlFor="upload-button">
             <input
               style={{ display: "none" }}

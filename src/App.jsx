@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./App.css";
-import "glider-js/glider.min.css";
+import "react-image-crop/dist/ReactCrop.css";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { ThemeOptions } from "./themes/theme";
 
