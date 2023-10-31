@@ -37,7 +37,10 @@ export default function Header(props) {
       <Divider />
       <List>
         <ListItem disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
+          <ListItemButton
+            onClick={() => navigate("/cadastrar")}
+            sx={{ textAlign: "center" }}
+          >
             <ListItemIcon>
               <PetsIcon color="primary" />
             </ListItemIcon>
