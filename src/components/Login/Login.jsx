@@ -13,6 +13,7 @@ import { useState } from "react";
 /* import Cookies from "js-cookie"; */
 import logo from "../../assets/logo.png";
 import "./login.css";
+import { Typography } from "@mui/material";
 
 const classes = {
   root: {
@@ -37,7 +38,6 @@ const classes = {
   },
   submit: {
     margin: "24px 0px 16px",
-    backgroundColor: "#005285",
     color: "white",
   },
 };
@@ -81,8 +81,17 @@ export const Login = () => {
       <Grid item xs={false} sm={6} md={7} className="image"></Grid>
       <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
         <Box sx={classes.paper}>
-          <Box sx={{ maxWidth: 140, flex: 2, mt: 2 }}>
+          <Box sx={{ maxWidth: 140, flex: 1, mt: 4 }}>
             <img style={{ maxWidth: "100%" }} src={logo}></img>
+          </Box>
+          <Box sx={{ maxWidth: 200, flex: 1 }}>
+            <Typography
+              sx={{ fontFamily: "cursive" }}
+              color="primary"
+              variant="h4"
+            >
+              TINDER DOG
+            </Typography>
           </Box>
           <Box
             component="form"
@@ -123,6 +132,7 @@ export const Login = () => {
               disabled={loading}
               type="submit"
               variant="contained"
+              color="primary"
               sx={classes.submit}
             >
               {loading ? (

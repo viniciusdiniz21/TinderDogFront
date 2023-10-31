@@ -25,13 +25,13 @@ const InfoCard = ({
   return (
     <Card
       sx={{
-        width: 500,
+        width: 400,
         maxWidth: "80vw",
         position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        height: { xs: 450, sm: "70vh" },
+        height: { xs: 450 },
         overflowY: "scroll",
         borderRadius: "24px",
       }}
