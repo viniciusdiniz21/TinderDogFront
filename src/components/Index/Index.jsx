@@ -1,6 +1,7 @@
 import * as React from "react";
 import TinderCard from "../Card/Card";
 import InfoCard from "../Card/CardInfo";
+import Match from "../Match/Match";
 function Index() {
   const [showCard, setShowCard] = React.useState(true);
   const [isFlipped, setIsFlipped] = React.useState(false);
@@ -47,6 +48,8 @@ function Index() {
               estado="MG"
             />
           )}
+          {/*trocar para 1 foto de cada cachorro*/}
+          <Match img={images[0]} img2={images[1]} />
         </div>
       </div>
     </div>
