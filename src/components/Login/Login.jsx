@@ -14,6 +14,7 @@ import { useState } from "react";
 import logo from "../../assets/logo.png";
 import "./login.css";
 import { Typography } from "@mui/material";
+import api from "../../services/api";
 
 const classes = {
   root: {
@@ -63,11 +64,11 @@ export const Login = () => {
     setLoading(true);
 
     try {
-      /* const response = await api.post(`/api/v2/Auth/Estabelecimento/Login`, {
-        Login: login,
-        Senha: password,
+      const response = await api.post(`/Auth`, {
+        usuario: login,
+        senha: password,
       });
-      Cookies.set("access_token", response.data.acess_token); */
+      Cookies.set("access_token", response.data.acess_token);
 
       window.location.reload();
       return response;
@@ -93,12 +94,7 @@ export const Login = () => {
               TINDER DOG
             </Typography>
           </Box>
-          <Box
-            component="form"
-            onSubmit={handleUser}
-            style={classes.form}
-            noValidate
-          >
+          <Box component="form" onSubmit={handleUser} style={classes.form}>
             <TextField
               margin="normal"
               required
@@ -128,9 +124,9 @@ export const Login = () => {
               }}
             />
             <Button
+              type="submit"
               fullWidth
               disabled={loading}
-              type="submit"
               variant="contained"
               color="primary"
               sx={classes.submit}

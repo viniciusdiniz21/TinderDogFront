@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   TextField,
   Button,
@@ -24,6 +24,7 @@ const CadastroCachorro = () => {
     aspect: 1,
     locked: true,
   });
+  const [completedCrop, setCompletedCrop] = useState();
   const [formValues, setFormValues] = useState({
     nome: "",
     idade: "",
@@ -56,10 +57,39 @@ const CadastroCachorro = () => {
     reader.readAsDataURL(file);
   };
 
+  const handleImage = (cropDetails) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    var img = new Image();
+    img.src = formValues.fotoURL;
+
+    canvas.width = cropDetails.width;
+    canvas.height = cropDetails.height;
+
+    ctx.drawImage(
+      img, // Sua imagem original
+      cropDetails.x,
+      cropDetails.y,
+      cropDetails.width,
+      cropDetails.height,
+      0,
+      0,
+      cropDetails.width,
+      cropDetails.height
+    );
+
+    canvas.toBlob((blob) => {
+      // 'blob' é o objeto Blob que representa a imagem cortada
+      // Você pode criar um novo arquivo usando este blob
+      const file = new File([blob], "cortada.jpg", { type: "image/jpeg" });
+      console.log(file);
+    }, "image/jpeg");
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formData = { nome, idade, peso, raca, foto };
-    console.log(formData);
+    handleImage(completedCrop, formValues.foto);
   };
 
   return (
@@ -127,6 +157,7 @@ const CadastroCachorro = () => {
               <ReactCrop
                 crop={crop}
                 onChange={(c) => setCrop(c)}
+                onComplete={(c) => setCompletedCrop(c)}
                 aspect={1}
                 maxHeight={300}
                 maxWidth={300}

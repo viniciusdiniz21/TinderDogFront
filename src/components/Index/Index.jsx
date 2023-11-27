@@ -2,9 +2,13 @@ import * as React from "react";
 import TinderCard from "../Card/Card";
 import InfoCard from "../Card/CardInfo";
 import Match from "../Match/Match";
+import api from "../../services/api";
+import { CircularProgress } from "@mui/material";
 function Index() {
   const [showCard, setShowCard] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
   const [isFlipped, setIsFlipped] = React.useState(false);
+  const [cachorros, setCachorros] = React.useState([]);
 
   const handleLike = () => {
     // Lógica para lidar com o "like"
@@ -12,6 +16,24 @@ function Index() {
 
   const handleDislike = () => {
     // Lógica para lidar com o "dislike"
+  };
+
+  React.useEffect(() => {
+    handleDogs();
+  }, []);
+
+  const handleDogs = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("Animal");
+      console.log(response.data);
+      setCachorros(response.data);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const images = [
@@ -27,31 +49,39 @@ function Index() {
   };
   return (
     <div className="card-container">
-      <div className={`card ${isFlipped ? "flipped" : ""}`}>
-        <div className={`card-inner ${showCard ? "front" : "back"}`}>
-          {showCard ? (
-            <TinderCard
-              images={images}
-              onLike={handleLike}
-              onDislike={handleDislike}
-              setCard={handleFlip}
-            />
-          ) : (
-            <InfoCard
-              images={images}
-              nome="Fido"
-              idade={5}
-              raca="Golden Retriever"
-              peso={30}
-              cidade="Araxá"
-              setCard={handleFlip}
-              estado="MG"
-            />
-          )}
-          {/*trocar para 1 foto de cada cachorro*/}
-          <Match img={images[0]} img2={images[1]} />
-        </div>
-      </div>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          {cachorros.map((dog) => (
+            <div className={`card ${isFlipped ? "flipped" : ""}`}>
+              <div className={`card-inner ${showCard ? "front" : "back"}`}>
+                {showCard ? (
+                  <TinderCard
+                    images={images}
+                    onLike={handleLike}
+                    onDislike={handleDislike}
+                    setCard={handleFlip}
+                  />
+                ) : (
+                  <InfoCard
+                    images={images}
+                    nome={dog.nome}
+                    idade={5}
+                    raca={dog.raca.nomeRaca}
+                    peso={dog.porte.tamanho}
+                    cidade="Araxá"
+                    setCard={handleFlip}
+                    estado="MG"
+                  />
+                )}
+                {/*trocar para 1 foto de cada cachorro*/}
+                <Match img={images[0]} img2={images[1]} />
+              </div>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 }
