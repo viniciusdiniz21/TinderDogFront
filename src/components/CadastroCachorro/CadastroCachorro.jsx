@@ -13,6 +13,13 @@ import {
 import logo from "../../assets/logo.png";
 import { PhotoCamera } from "@mui/icons-material";
 import { ReactCrop } from "react-image-crop";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { app } from "../../services/firebaseConfig";
 
 const CadastroCachorro = () => {
   const [crop, setCrop] = useState({
@@ -33,6 +40,8 @@ const CadastroCachorro = () => {
     foto: null,
     fotoURL: null,
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -83,13 +92,61 @@ const CadastroCachorro = () => {
       // 'blob' é o objeto Blob que representa a imagem cortada
       // Você pode criar um novo arquivo usando este blob
       const file = new File([blob], "cortada.jpg", { type: "image/jpeg" });
-      console.log(file);
+      uploadImageAndGetURL(file, file.name);
     }, "image/jpeg");
+  };
+
+  const db = getStorage(app);
+
+  const uploadImageAndGetURL = (file, id) => {
+    if (!file) return;
+    setLoading(true);
+    const useCollectionRef = ref(db, `fotos/${id}`);
+
+    const uploadTask = uploadBytesResumable(useCollectionRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      },
+      (error) => {
+        alert("Erro ao enviar imagem");
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setFormValues({
+            ...formValues,
+            foto: downloadURL,
+          });
+        });
+      }
+    );
+  };
+
+  const handleCadastro = async () => {
+    setLoading(true);
+    try {
+      const response = await api.post(`/Animal`, {
+        nome: formValues.nome,
+        foto: formValues.foto,
+        porteId: 1,
+        racaId: 1,
+        usuarioId: 1,
+        curtida: [],
+      });
+      alert("Cadastrado com sucesso");
+      return response;
+    } catch (err) {
+      alert("Erro no cadastro");
+    }
+    setLoading(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     handleImage(completedCrop, formValues.foto);
+    handleCadastro();
   };
 
   return (

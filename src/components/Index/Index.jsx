@@ -9,13 +9,42 @@ function Index() {
   const [loading, setLoading] = React.useState(true);
   const [isFlipped, setIsFlipped] = React.useState(false);
   const [cachorros, setCachorros] = React.useState([]);
+  const [loadingLike, setLoadingLike] = React.useState(false);
 
-  const handleLike = () => {
-    // Lógica para lidar com o "like"
+  const handleLike = async () => {
+    setLoadingLike(true);
+    try {
+      const response = await api.post("Animal/Curtida", {
+        animalId: 1,
+        destinoId: 2,
+        curtiu: true,
+      });
+      if (response.status == 201) {
+        console.log("deu match");
+      }
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setLoadingLike(false);
+    }
   };
 
-  const handleDislike = () => {
-    // Lógica para lidar com o "dislike"
+  const handleDislike = async () => {
+    setLoadingLike(true);
+    try {
+      const response = await api.post("Animal/Curtida", {
+        animalId: 1,
+        destinoId: 2,
+        curtiu: false,
+      });
+
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setLoadingLike(false);
+    }
   };
 
   React.useEffect(() => {
@@ -26,7 +55,6 @@ function Index() {
     setLoading(true);
     try {
       const response = await api.get("Animal");
-      console.log(response.data);
       setCachorros(response.data);
       return response;
     } catch (error) {
