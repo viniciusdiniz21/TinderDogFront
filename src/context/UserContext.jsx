@@ -6,6 +6,7 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: null,
     name: "",
+    token: null,
     profiles: [],
   });
 
@@ -17,7 +18,7 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, changeProfile }}>
+    <UserContext.Provider value={{ user, setUser, changeProfile }}>
       {children}
     </UserContext.Provider>
   );

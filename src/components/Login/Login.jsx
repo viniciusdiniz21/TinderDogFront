@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useContext } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -15,6 +15,7 @@ import logo from "../../assets/logo.png";
 import "./login.css";
 import { Typography } from "@mui/material";
 import api from "../../services/api";
+import { UserContext } from "../../context/UserContext";
 
 const classes = {
   root: {
@@ -48,6 +49,8 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { user, setUser, changeProfile } = useContext(UserContext);
+
   /*   const authenticate = useLoaderData();
 
   const navigate = useNavigate();
@@ -68,8 +71,21 @@ export const Login = () => {
         usuario: login,
         senha: password,
       });
-      Cookies.set("access_token", response.data.acess_token);
-
+      Cookies.set("access_token", response.data.token);
+      setUser({
+        ...user,
+        id: response.data.id,
+        nome: response.data.nome,
+        token: response.data.token,
+        profiles: response.data.animais,
+      });
+      console.log({
+        ...user,
+        id: response.data.id,
+        nome: response.data.nome,
+        token: response.data.token,
+        profiles: response.data.animais,
+      });
       window.location.reload();
       return response;
     } catch (err) {}
