@@ -37,6 +37,14 @@ export const router = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
+    loader: () => {
+      let tkn = Cookies.get("access_token");
+      let auth = tkn ? true : false;
+      if (auth) {
+        return redirect("../");
+      }
+      return auth;
+    },
   },
   {
     path: "cadastrar",

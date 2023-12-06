@@ -65,23 +65,21 @@ button:focus-visible {
 }
 
 *::-webkit-scrollbar {
-  width: 2px;
+  width: 0px;
 }
 
 *::-webkit-scrollbar-track {
-  background: #ffffff;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #9da0af;
-  border-radius: 2px;
-  border: 1px solid #ffffff;
+  border: 0px solid transparent;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: transparent;
   }
   a:hover {
     color: #747bff;

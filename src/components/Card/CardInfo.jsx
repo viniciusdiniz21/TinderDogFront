@@ -34,6 +34,10 @@ const InfoCard = ({
         height: { xs: 450 },
         overflowY: "scroll",
         borderRadius: "24px",
+        "&::-webkit-scrollbar-thumb":
+          "background-color: transparent !important",
+        "&::-webkit-scrollbar-track":
+          "background-color: transparent !important",
       }}
       elevation={10}
     >

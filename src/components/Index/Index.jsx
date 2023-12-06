@@ -4,6 +4,7 @@ import InfoCard from "../Card/CardInfo";
 import Match from "../Match/Match";
 import api from "../../services/api";
 import { CircularProgress } from "@mui/material";
+import dayjs from "dayjs";
 function Index() {
   const [showCard, setShowCard] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
@@ -103,9 +104,12 @@ function Index() {
                   <InfoCard
                     images={images}
                     nome={cachorros[index].nome}
-                    idade={5}
-                    raca={cachorros[index].raca.nomeRaca}
-                    peso={cachorros[index].porte.tamanho}
+                    idade={dayjs().diff(
+                      dayjs(cachorros[index].dataNascimento),
+                      "year"
+                    )}
+                    raca={cachorros[index].raca?.nomeRaca}
+                    peso={cachorros[index].porte?.tamanho}
                     cidade="Araxá"
                     setCard={handleFlip}
                     estado="MG"

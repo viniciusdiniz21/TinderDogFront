@@ -16,6 +16,7 @@ import "./login.css";
 import { Typography } from "@mui/material";
 import api from "../../services/api";
 import { UserContext } from "../../context/UserContext";
+import Cookies from "js-cookie";
 
 const classes = {
   root: {
@@ -79,16 +80,12 @@ export const Login = () => {
         token: response.data.token,
         profiles: response.data.animais,
       });
-      console.log({
-        ...user,
-        id: response.data.id,
-        nome: response.data.nome,
-        token: response.data.token,
-        profiles: response.data.animais,
-      });
+      console.log(response.data);
       window.location.reload();
       return response;
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
     setLoading(false);
   };
 
