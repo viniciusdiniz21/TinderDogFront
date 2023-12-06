@@ -112,7 +112,7 @@ function Index() {
                   />
                 )}
                 {/*trocar para 1 foto de cada cachorro*/}
-                <Match img={images[0]} img2={images[1]} />
+                <Match img={cachorros[index].foto} />
               </div>
             </div>
           )}

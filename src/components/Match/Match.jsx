@@ -9,7 +9,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 
-export default function Match({ img, img2 }) {
+export default function Match({ img }) {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -44,13 +44,13 @@ export default function Match({ img, img2 }) {
             <Avatar
               alt="Remy Sharp"
               src={img}
-              sx={{ width: "10rem", height: "10rem" }}
+              sx={{ width: "14rem", height: "14rem" }}
             />
-            <Avatar
+            {/* <Avatar
               alt="Remy Sharp"
               src={img2}
               sx={{ width: "10rem", height: "10rem" }}
-            />
+            /> */}
           </Box>
           {/* ADICIONAR AS FOTOS DOS CACHORROS*/}
           <DialogContentText
