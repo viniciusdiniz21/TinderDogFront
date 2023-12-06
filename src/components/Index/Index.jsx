@@ -24,7 +24,7 @@ function Index() {
     try {
       const response = await api.post("Animal/Curtida", {
         animalId: 1,
-        destinoId: 2,
+        destinoId: cachorros[index].id,
         curtiu: true,
       });
       if (response.status == 201) {
@@ -44,7 +44,7 @@ function Index() {
     try {
       const response = await api.post("Animal/Curtida", {
         animalId: 1,
-        destinoId: 2,
+        destinoId: cachorros[index].id,
         curtiu: false,
       });
       handleChangeIndex();

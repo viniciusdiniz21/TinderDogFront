@@ -83,7 +83,7 @@ export const Login = () => {
         token: response.data.token,
         profiles: response.data.animais,
       });
-      //window.location.reload();
+      window.location.reload();
       return response;
     } catch (err) {
       console.log(err);
