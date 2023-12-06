@@ -24,6 +24,7 @@ import { UserContext } from "../../context/UserContext";
 import dayjs from "dayjs";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const CadastroCachorro = () => {
   const [crop, setCrop] = useState({
@@ -75,7 +76,8 @@ const CadastroCachorro = () => {
 
   const navigate = useNavigate();
 
-  const usuario = useContext(UserContext);
+  const { user, setUser, changeProfile } = useContext(UserContext);
+  console.log(user);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -159,6 +161,7 @@ const CadastroCachorro = () => {
   };
 
   const handleCadastro = async (imgUrl) => {
+    let id = Cookies.get("id");
     setLoading(true);
     try {
       const response = await api.post(`/Animal`, {
@@ -166,8 +169,7 @@ const CadastroCachorro = () => {
         foto: imgUrl,
         porteId: formValues.porteId,
         racaId: formValues.racaId,
-        usuarioId: usuario.id,
-        dataNascimento: dayjs(),
+        usuarioId: id,
         curtida: [],
         ativo: true,
       });
@@ -183,7 +185,6 @@ const CadastroCachorro = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     handleImage(completedCrop, formValues.foto);
-    console.log(formValues);
     /* handleCadastro(); */
   };
 

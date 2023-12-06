@@ -14,8 +14,8 @@ function Index() {
   const [index, setIndex] = React.useState(0);
 
   const handleChangeIndex = () => {
-    if (index < cachorros.length - 1) {
-      setIndex(index + 1);
+    if (index > 0) {
+      setIndex(index - 1);
     }
   };
 
@@ -65,6 +65,7 @@ function Index() {
     try {
       const response = await api.get("Animal");
       setCachorros(response.data);
+      setIndex(response.data.length - 1);
       return response;
     } catch (error) {
       throw new Error(error);
@@ -73,6 +74,8 @@ function Index() {
     }
   };
 
+  const img =
+    "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg";
   const images = [
     "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
     "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
@@ -95,14 +98,24 @@ function Index() {
               <div className={`card-inner ${showCard ? "front" : "back"}`}>
                 {showCard ? (
                   <TinderCard
-                    images={images}
+                    images={[
+                      cachorros[index].foto == "https.semfoto"
+                        ? img
+                        : cachorros[index].foto,
+                    ]}
                     onLike={handleLike}
                     onDislike={handleDislike}
                     setCard={handleFlip}
+                    nome={cachorros[index].nome}
+                    raca={cachorros[index].raca?.nomeRaca}
                   />
                 ) : (
                   <InfoCard
-                    images={images}
+                    images={[
+                      cachorros[index].foto == "https.semfoto"
+                        ? img
+                        : cachorros[index].foto,
+                    ]}
                     nome={cachorros[index].nome}
                     idade={dayjs().diff(
                       dayjs(cachorros[index].dataNascimento),

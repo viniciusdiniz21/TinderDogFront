@@ -9,7 +9,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { grey } from "@mui/material/colors";
 
-const TinderCard = ({ images, onLike, onDislike, setCard }) => {
+const TinderCard = ({ images, onLike, onDislike, setCard, nome, raca }) => {
   return (
     <Card
       sx={{
@@ -38,7 +38,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard }) => {
           variant="h5"
           sx={{ fontFamily: "Poppins" }}
         >
-          Cachorro - Vira-Lata
+          {nome} - {raca == null ? "Vira-lata" : raca}
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <LocationOnIcon color="primary" />

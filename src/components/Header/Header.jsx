@@ -31,7 +31,19 @@ export default function Header(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Box sx={{ width: 36, height: 36, margin: "0 auto", mt: 2, mb: 2 }}>
+      <Box
+        onClick={() => {
+          navigate("../");
+        }}
+        sx={{
+          width: 36,
+          height: 36,
+          margin: "0 auto",
+          mt: 2,
+          mb: 2,
+          cursor: "pointer",
+        }}
+      >
         <img style={{ maxWidth: "100%" }} src={logo} />
       </Box>
       <Divider />
@@ -50,7 +62,7 @@ export default function Header(props) {
             />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        {/* <ListItem disablePadding>
           <ListItemButton sx={{ textAlign: "center" }}>
             <ListItemIcon>
               <PersonIcon color="primary" />
@@ -60,7 +72,7 @@ export default function Header(props) {
               secondary="Configurações do usuário"
             />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => navigate("/mensagens")}
@@ -102,6 +114,9 @@ export default function Header(props) {
               cursor: "pointer",
               marginRight: { xs: "none", sm: "3vw" },
               mt: 1,
+            }}
+            onClick={() => {
+              navigate("../");
             }}
           >
             <img style={{ maxWidth: "4vw" }} src={logo} />

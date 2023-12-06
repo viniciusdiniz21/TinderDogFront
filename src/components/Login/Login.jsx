@@ -73,6 +73,9 @@ export const Login = () => {
         senha: password,
       });
       Cookies.set("access_token", response.data.token);
+      Cookies.set("id", response.data.id);
+      Cookies.set("nome", response.data.nome);
+
       setUser({
         ...user,
         id: response.data.id,
@@ -80,8 +83,7 @@ export const Login = () => {
         token: response.data.token,
         profiles: response.data.animais,
       });
-      console.log(response.data);
-      window.location.reload();
+      //window.location.reload();
       return response;
     } catch (err) {
       console.log(err);
