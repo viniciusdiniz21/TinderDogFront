@@ -9,6 +9,7 @@ import {
   Container,
   Paper,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import logo from "../../assets/logo.png";
 import { PhotoCamera } from "@mui/icons-material";
@@ -283,9 +284,10 @@ const CadastroCachorro = () => {
             variant="contained"
             color="primary"
             fullWidth
+            disabled={loading}
             style={{ marginTop: "1rem" }}
           >
-            Cadastrar
+            {loading ? <CircularProgress /> : "Cadastrar"}
           </Button>
         </form>
       </Paper>

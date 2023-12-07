@@ -12,6 +12,7 @@ function Index() {
   const [cachorros, setCachorros] = React.useState([]);
   const [loadingLike, setLoadingLike] = React.useState(false);
   const [index, setIndex] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const handleChangeIndex = () => {
     if (index > 0) {
@@ -21,14 +22,18 @@ function Index() {
 
   const handleLike = async () => {
     setLoadingLike(true);
+    let numeroInteiroEntre1e1000000 = Math.floor(Math.random() * 1000000) + 1;
+
     try {
       const response = await api.post("Animal/Curtida", {
-        animalId: 1,
+        id: numeroInteiroEntre1e1000000,
+        animalId: 5,
         destinoId: cachorros[index].id,
         curtiu: true,
+        ativo: true,
       });
       if (response.status == 201) {
-        console.log("deu match");
+        setOpen(true);
       }
       handleChangeIndex();
       return response;
@@ -41,11 +46,14 @@ function Index() {
 
   const handleDislike = async () => {
     setLoadingLike(true);
+    let numeroInteiroEntre1e1000000 = Math.floor(Math.random() * 1000000) + 1;
     try {
       const response = await api.post("Animal/Curtida", {
-        animalId: 1,
+        id: numeroInteiroEntre1e1000000,
+        animalId: 5,
         destinoId: cachorros[index].id,
         curtiu: false,
+        ativo: true,
       });
       handleChangeIndex();
       return response;
@@ -129,7 +137,11 @@ function Index() {
                   />
                 )}
                 {/*trocar para 1 foto de cada cachorro*/}
-                <Match img={cachorros[index].foto} />
+                <Match
+                  img={cachorros[index].foto}
+                  open={open}
+                  setOpen={setOpen}
+                />
               </div>
             </div>
           )}

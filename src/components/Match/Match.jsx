@@ -9,8 +9,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 
-export default function Match({ img }) {
-  const [open, setOpen] = React.useState(false);
+export default function Match({ img, open, setOpen }) {
   const navigate = useNavigate();
 
   const handleClickOpen = () => {

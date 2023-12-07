@@ -15,7 +15,9 @@ import { ListItemIcon, useTheme } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import PersonIcon from "@mui/icons-material/Person";
 import logo from "../../assets/logo.png";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const drawerWidth = 240;
 
@@ -82,6 +84,21 @@ export default function Header(props) {
               <SmsIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="Mensagens" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              Cookies.remove("access_token");
+              Cookies.remove("id");
+              Cookies.remove("nome");
+            }}
+            sx={{ textAlign: "center" }}
+          >
+            <ListItemIcon>
+              <LogoutIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Sair" />
           </ListItemButton>
         </ListItem>
       </List>

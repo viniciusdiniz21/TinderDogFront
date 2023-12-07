@@ -5,6 +5,7 @@ import Mensagens from "../components/Mensagens/Mensagens";
 import Index from "../components/Index/Index";
 import CadastroCachorro from "../components/CadastroCachorro/CadastroCachorro";
 import Cookies from "js-cookie";
+import Raca from "../components/Raca/Raca";
 
 function loaderAuthenticacao() {
   let auth = Cookies.get("access_token");
@@ -50,5 +51,10 @@ export const router = createBrowserRouter([
     path: "cadastrar",
     loader: loaderAuthenticacao,
     element: <CadastroCachorro />,
+  },
+  {
+    path: "raca",
+    loader: loaderAuthenticacao,
+    element: <Raca />,
   },
 ]);
