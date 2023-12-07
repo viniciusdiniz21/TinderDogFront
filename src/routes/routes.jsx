@@ -55,12 +55,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "raca",
-    loader: loaderAuthenticacao,
     element: <Raca />,
   },
   {
     path: "usuario",
-    loader: loaderAuthenticacao,
     element: <Usuario />,
   },
 ]);
