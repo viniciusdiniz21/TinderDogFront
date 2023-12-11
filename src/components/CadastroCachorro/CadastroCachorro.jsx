@@ -79,7 +79,6 @@ const CadastroCachorro = () => {
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(UserContext);
-  console.log(user);
 
   const handleChange = (event) => {
     const { name, value } = event.target;

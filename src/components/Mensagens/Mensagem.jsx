@@ -50,6 +50,8 @@ const Mensagem = ({ nome, foto, mensagens, matchId, idCachorro }) => {
   const [mensagem, setMensagem] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
+  const id = Cookies.get("idanimal");
+
   const handleMsg = async () => {
     setLoading(true);
     const id = Cookies.get("idanimal");
@@ -60,15 +62,17 @@ const Mensagem = ({ nome, foto, mensagens, matchId, idCachorro }) => {
       cachorro2: idCachorro,
       ativo: true,
     };
+    msgs.push(obj);
     try {
       const response = await api.post(`/Mensagem`, obj);
-
       return response;
     } catch (err) {
-      alert("Erro no cadastro");
+      /* alert("Erro ao mandar mensagem"); */
     }
     setLoading(false);
   };
+
+  let msgs = mensagens;
 
   return (
     <Container>
@@ -94,9 +98,9 @@ const Mensagem = ({ nome, foto, mensagens, matchId, idCachorro }) => {
       </Box>
       <Box sx={{ maxHeight: "70%", overflowY: "scroll" }}>
         <ul>
-          {mensagens.map((mensagem, index) => (
+          {msgs.map((mensagem, index) => (
             <li key={index}>
-              {mensagem.tipo === "enviada" ? (
+              {mensagem.cachorro1 == id ? (
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <MensagemEnviada>{mensagem.conteudo}</MensagemEnviada>
                 </Box>

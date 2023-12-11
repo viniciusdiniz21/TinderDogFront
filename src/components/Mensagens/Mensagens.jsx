@@ -82,7 +82,6 @@ const Mensagens = () => {
     if (match != [] && animaisMatch != []) {
       const resultado = combinarMatchesComAnimais(match, animaisMatch);
       setListaMatches(resultado);
-      console.log(resultado);
     }
   }, [match, animaisMatch]);
 
