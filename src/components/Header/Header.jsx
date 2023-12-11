@@ -92,7 +92,7 @@ export default function Header(props) {
               Cookies.remove("access_token");
               Cookies.remove("id");
               Cookies.remove("nome");
-              window.location.reload();
+              navigate("/login");
             }}
             sx={{ textAlign: "center" }}
           >

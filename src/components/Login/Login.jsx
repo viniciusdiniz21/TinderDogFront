@@ -17,6 +17,7 @@ import { Typography } from "@mui/material";
 import api from "../../services/api";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const classes = {
   root: {
@@ -50,11 +51,11 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { user, setUser, changeProfile } = useContext(UserContext);
-
-  /*   const authenticate = useLoaderData();
+  const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
+  /*   const authenticate = useLoaderData();
+
 
   React.useEffect(() => {
     if (authenticate) {
@@ -81,12 +82,19 @@ export const Login = () => {
         id: response.data.id,
         nome: response.data.nome,
         token: response.data.token,
-        profiles: response.data.animais,
+        profile: response.data.animal,
       });
-      window.location.reload();
+
+      if (response.data.animal == null) {
+        navigate("../cadastrar");
+      } else {
+        Cookies.set("idanimal", response.data.animal.id);
+        navigate("../");
+      }
       return response;
     } catch (err) {
       console.log(err);
+      alert("Erro ao fazer login");
     }
     setLoading(false);
   };
@@ -152,11 +160,8 @@ export const Login = () => {
                 "Entrar"
               )}
             </Button>
-            <Link
-              href="/recuperarsenha"
-              /* onClick={handleOpen}*/ variant="body2"
-            >
-              Esqueceu sua senha?
+            <Link href="/criarconta" /* onClick={handleOpen}*/ variant="body2">
+              CRIAR CONTA
             </Link>
           </Box>
         </Box>

@@ -10,6 +10,7 @@ import {
   Paper,
   Box,
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import logo from "../../assets/logo.png";
 import { PhotoCamera } from "@mui/icons-material";
@@ -56,7 +57,7 @@ const CadastroCachorro = () => {
 
   const handleRaca = async () => {
     try {
-      const response = await api.get("Raca/Listar");
+      const response = await api.get("Raca");
       setRacas(response.data);
       return response;
     } catch (error) {
@@ -65,7 +66,7 @@ const CadastroCachorro = () => {
   };
   const handlePorte = async () => {
     try {
-      const response = await api.get("Porte/Listar");
+      const response = await api.get("Porte");
       setPortes(response.data);
       return response;
     } catch (error) {
@@ -77,7 +78,7 @@ const CadastroCachorro = () => {
 
   const navigate = useNavigate();
 
-  const { user, setUser, changeProfile } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   console.log(user);
 
   const handleChange = (event) => {
@@ -211,6 +212,7 @@ const CadastroCachorro = () => {
           onSubmit={handleSubmit}
         >
           <img src={logo} style={{ width: "100px" }} />
+          <Typography variant="h6">Cadastrar Animal</Typography>
           <TextField
             label="Nome"
             name="nome"

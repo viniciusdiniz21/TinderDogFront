@@ -9,6 +9,7 @@ import {
   Container,
   Paper,
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import logo from "../../assets/logo.png";
 import api from "../../services/api";
@@ -79,6 +80,7 @@ const Raca = () => {
           onSubmit={handleSubmit}
         >
           <img src={logo} style={{ width: "100px" }} />
+          <Typography variant="h6">Cadastrar Animal</Typography>
           <TextField
             label="Nome"
             name="nome"

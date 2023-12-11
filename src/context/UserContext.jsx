@@ -8,18 +8,11 @@ const UserProvider = ({ children }) => {
     id: Cookies.get("id"),
     nome: Cookies.get("nome"),
     token: Cookies.get("token"),
-    profiles: [],
+    profiles: null,
   });
 
-  const changeProfile = (newProfile) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      currentProfile: newProfile,
-    }));
-  };
-
   return (
-    <UserContext.Provider value={{ user, setUser, changeProfile }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );

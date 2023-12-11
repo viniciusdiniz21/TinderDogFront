@@ -5,6 +5,7 @@ import Match from "../Match/Match";
 import api from "../../services/api";
 import { CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
+import Cookies from "js-cookie";
 function Index() {
   const [showCard, setShowCard] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
@@ -13,6 +14,8 @@ function Index() {
   const [loadingLike, setLoadingLike] = React.useState(false);
   const [index, setIndex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+
+  const animalId = Cookies.get("idanimal");
 
   const handleChangeIndex = () => {
     if (index > 0) {
@@ -26,8 +29,7 @@ function Index() {
 
     try {
       const response = await api.post("Animal/Curtida", {
-        id: numeroInteiroEntre1e1000000,
-        animalId: 5,
+        animalId: animalId,
         destinoId: cachorros[index].id,
         curtiu: true,
         ativo: true,
@@ -49,8 +51,7 @@ function Index() {
     let numeroInteiroEntre1e1000000 = Math.floor(Math.random() * 1000000) + 1;
     try {
       const response = await api.post("Animal/Curtida", {
-        id: numeroInteiroEntre1e1000000,
-        animalId: 5,
+        animalId: animalId,
         destinoId: cachorros[index].id,
         curtiu: false,
         ativo: true,

@@ -12,9 +12,11 @@ import {
 } from "@mui/material";
 import logo from "../../assets/logo.png";
 import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const Usuario = () => {
   const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     nome: "",
     senha: "",
@@ -34,17 +36,19 @@ const Usuario = () => {
     try {
       const response = await api.post(`/Usuario/Cadastrar`, {
         nome: formValues.nome,
-        senha: formValues.tamanho,
+        senha: formValues.senha,
         token: formValues.token,
         ativo: true,
       });
       alert("Cadastrado com sucesso");
+      navigate("../login");
       setFormValues({
         nome: "",
         senha: "",
         token: null,
         ativo: true,
       });
+      navigate;
       return response;
     } catch (err) {
       alert("Erro no cadastro");
@@ -92,7 +96,6 @@ const Usuario = () => {
             name="senha"
             value={formValues.senha}
             onChange={handleChange}
-            placeholder="Em cm"
             type="password"
             fullWidth
             required
