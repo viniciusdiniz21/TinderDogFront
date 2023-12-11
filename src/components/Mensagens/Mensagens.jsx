@@ -3,6 +3,9 @@ import * as React from "react";
 import Mensagem from "./Mensagem";
 import MenuLateral from "./MenuLateral";
 import { styled } from "@mui/system";
+import { UserContext } from "../../context/UserContext";
+import api from "../../services/api";
+import Card from "@mui/material/Card";
 
 const ContentContainer = styled("div")({
   display: "flex",
@@ -10,53 +13,106 @@ const ContentContainer = styled("div")({
 });
 
 const Mensagens = () => {
-  const [conversaSelecionada, setConversaSelecionada] = React.useState(0);
-  const conversas = [
-    {
-      nome: "Cachorro",
-      foto: "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
-      mensagens: [
-        { texto: "Oi!", tipo: "enviada" },
-        { texto: "Como vai?", tipo: "enviada" },
-        { texto: "Oi!", tipo: "recebida" },
-        { texto: "Como vai?", tipo: "recebida" },
-        {
-          texto:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-          tipo: "enviada",
-        },
-      ],
-    },
-    {
-      nome: "Cachorro 2",
-      foto: "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
-      mensagens: [
-        { texto: "Olá!", tipo: "recebida" },
-        { texto: "Tudo bem?", tipo: "recebida" },
-      ],
-    },
-  ];
+  const [conversaSelecionada, setConversaSelecionada] = React.useState(null);
+
+  const [match, setMatch] = React.useState([]);
+  const [animaisMatch, setAnimaisMatch] = React.useState([]);
+  const [listaMatches, setListaMatches] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+
+  const { user, setUser } = React.useContext(UserContext);
+
+  function combinarMatchesComAnimais(matches, listaAnimais) {
+    // Função auxiliar para obter o Animal com base no ID
+    function obterAnimalPorId(animalId) {
+      return listaAnimais.find((animal) => animal.id === animalId);
+    }
+
+    // Função principal que combina matches com animais
+    const listaCombinada = matches.map((match) => {
+      const outroAnimal =
+        user.profile.id == match.cachorro1
+          ? obterAnimalPorId(match.cachorro2)
+          : obterAnimalPorId(match.cachorro1);
+
+      return {
+        match,
+        outroAnimal,
+      };
+    });
+
+    return listaCombinada;
+  }
+
+  const handleAnimais = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("Animal");
+      setAnimaisMatch(response.data);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleMatchs = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("Match");
+      const matchs = response.data.filter(
+        (mat) =>
+          mat.cachorro1 == user.profile.id || mat.cachorro2 == user.profile.id
+      );
+      setMatch(matchs);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    handleAnimais();
+    handleMatchs();
+  }, []);
+
+  React.useEffect(() => {
+    if (match != [] && animaisMatch != []) {
+      const resultado = combinarMatchesComAnimais(match, animaisMatch);
+      setListaMatches(resultado);
+      console.log(resultado);
+    }
+  }, [match, animaisMatch]);
 
   const selecionarConversa = (index) => {
     setConversaSelecionada(index);
   };
-
   return (
     <ContentContainer>
-      <MenuLateral
-        conversas={conversas}
-        conversaSelecionada={conversaSelecionada}
-        selecionarConversa={selecionarConversa}
-      />
-      <div>
-        {conversaSelecionada !== null && (
-          <Mensagem
-            nome={conversas[conversaSelecionada].nome}
-            foto={conversas[conversaSelecionada].foto}
-            mensagens={conversas[conversaSelecionada].mensagens}
+      {listaMatches.length > 0 ? (
+        <>
+          <MenuLateral
+            conversas={listaMatches}
+            conversaSelecionada={conversaSelecionada}
+            selecionarConversa={selecionarConversa}
           />
-        )}
-      </div>
+          <div>
+            {conversaSelecionada !== null && listaMatches.length > 0 && (
+              <Mensagem
+                nome={listaMatches[conversaSelecionada].outroAnimal?.nome}
+                foto={listaMatches[conversaSelecionada].outroAnimal?.foto}
+                mensagens={listaMatches[conversaSelecionada].match?.mensagens}
+                matchId={listaMatches[conversaSelecionada].match?.id}
+                idCachorro={listaMatches[conversaSelecionada].outroAnimal?.id}
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <Card sx={{ minWidth: 275, p: 8 }}> Nenhum Match no momento...</Card>
+      )}
     </ContentContainer>
   );
 };

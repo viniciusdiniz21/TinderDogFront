@@ -8,7 +8,7 @@ const UserProvider = ({ children }) => {
     id: Cookies.get("id"),
     nome: Cookies.get("nome"),
     token: Cookies.get("token"),
-    profiles: null,
+    animalid: Cookies.get("idanimal"),
   });
 
   return (

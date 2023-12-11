@@ -10,6 +10,9 @@ import {
   IconButton,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import { UserContext } from "../../context/UserContext";
+import api from "../../services/api";
+import Cookies from "js-cookie";
 
 const Container = styled("div")({
   border: "1px solid #ccc",
@@ -43,8 +46,30 @@ const MensagemRecebida = styled(Msg)({
   maxWidth: "70%",
 });
 
-const Mensagem = ({ nome, foto, mensagens }) => {
+const Mensagem = ({ nome, foto, mensagens, matchId, idCachorro }) => {
   const [mensagem, setMensagem] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
+  const handleMsg = async () => {
+    setLoading(true);
+    const id = Cookies.get("idanimal");
+    const obj = {
+      conteudo: mensagem,
+      matchId: matchId,
+      cachorro1: id,
+      cachorro2: idCachorro,
+      ativo: true,
+    };
+    try {
+      const response = await api.post(`/Mensagem`, obj);
+
+      return response;
+    } catch (err) {
+      alert("Erro no cadastro");
+    }
+    setLoading(false);
+  };
+
   return (
     <Container>
       <Box>
@@ -73,11 +98,11 @@ const Mensagem = ({ nome, foto, mensagens }) => {
             <li key={index}>
               {mensagem.tipo === "enviada" ? (
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  <MensagemEnviada>{mensagem.texto}</MensagemEnviada>
+                  <MensagemEnviada>{mensagem.conteudo}</MensagemEnviada>
                 </Box>
               ) : (
                 <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                  <MensagemRecebida>{mensagem.texto}</MensagemRecebida>
+                  <MensagemRecebida>{mensagem.conteudo}</MensagemRecebida>
                 </Box>
               )}
             </li>
@@ -91,7 +116,7 @@ const Mensagem = ({ nome, foto, mensagens }) => {
           fullWidth
           onChange={(ev) => setMensagem(ev.target.value)}
         />
-        <IconButton>
+        <IconButton onClick={() => handleMsg()}>
           <SendIcon color="primary" />
         </IconButton>
       </Box>

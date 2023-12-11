@@ -6,6 +6,7 @@ import api from "../../services/api";
 import { CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
 import Cookies from "js-cookie";
+import { UserContext } from "../../context/UserContext";
 function Index() {
   const [showCard, setShowCard] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
@@ -14,6 +15,8 @@ function Index() {
   const [loadingLike, setLoadingLike] = React.useState(false);
   const [index, setIndex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+
+  const { user, setUser } = React.useContext(UserContext);
 
   const animalId = Cookies.get("idanimal");
 
@@ -25,7 +28,6 @@ function Index() {
 
   const handleLike = async () => {
     setLoadingLike(true);
-    let numeroInteiroEntre1e1000000 = Math.floor(Math.random() * 1000000) + 1;
 
     try {
       const response = await api.post("Animal/Curtida", {
@@ -34,6 +36,7 @@ function Index() {
         curtiu: true,
         ativo: true,
       });
+
       if (response.status == 201) {
         setOpen(true);
       }
@@ -48,7 +51,6 @@ function Index() {
 
   const handleDislike = async () => {
     setLoadingLike(true);
-    let numeroInteiroEntre1e1000000 = Math.floor(Math.random() * 1000000) + 1;
     try {
       const response = await api.post("Animal/Curtida", {
         animalId: animalId,
@@ -69,12 +71,28 @@ function Index() {
     handleDogs();
   }, []);
 
+  function FiltrarListagem(lista) {
+    if (user.profile != null) {
+      const listaCurtidas = user.profile.curtida;
+      const idsCurtidas = new Set(
+        listaCurtidas.map((curta) => curta.destinoId)
+      );
+      idsCurtidas.add(user.profile.id);
+      const listaAnimaisFiltrada = lista.filter(
+        (animal) => !idsCurtidas.has(animal.id)
+      );
+      return listaAnimaisFiltrada;
+    }
+    return lista;
+  }
+
   const handleDogs = async () => {
     setLoading(true);
     try {
       const response = await api.get("Animal");
-      setCachorros(response.data);
-      setIndex(response.data.length - 1);
+      const dogs = FiltrarListagem(response.data);
+      setCachorros(dogs);
+      setIndex(dogs.length - 1);
       return response;
     } catch (error) {
       throw new Error(error);
@@ -85,12 +103,6 @@ function Index() {
 
   const img =
     "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg";
-  const images = [
-    "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
-    "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
-    "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
-    "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg",
-  ];
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -146,32 +158,6 @@ function Index() {
               </div>
             </div>
           )}
-          {/* {cachorros.map((dog) => (
-            <div className={`card ${isFlipped ? "flipped" : ""}`}>
-              <div className={`card-inner ${showCard ? "front" : "back"}`}>
-                {showCard ? (
-                  <TinderCard
-                    images={images}
-                    onLike={handleLike}
-                    onDislike={handleDislike}
-                    setCard={handleFlip}
-                  />
-                ) : (
-                  <InfoCard
-                    images={images}
-                    nome={dog.nome}
-                    idade={5}
-                    raca={dog.raca.nomeRaca}
-                    peso={dog.porte.tamanho}
-                    cidade="Araxá"
-                    setCard={handleFlip}
-                    estado="MG"
-                  />
-                )}
-                <Match img={images[0]} img2={images[1]} />
-              </div>
-            </div>
-          ))} */}
         </>
       )}
     </div>
