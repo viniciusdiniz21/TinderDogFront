@@ -12,7 +12,11 @@ const Slider = ({ images }) => {
     >
       {images.map((image, index) => (
         <div key={index}>
-          <img src={image} alt={`Slide ${index}`} />
+          <img
+            style={{ width: "100%", objectFit: "fill", maxHeight: 250 }}
+            src={image}
+            alt={`Slide ${index}`}
+          />
         </div>
       ))}
     </Glider>

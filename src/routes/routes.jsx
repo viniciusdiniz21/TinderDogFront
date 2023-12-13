@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
     element: <Raca />,
   },
   {
-    path: "usuario",
+    path: "criarconta",
     element: <Usuario />,
   },
 ]);
