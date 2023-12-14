@@ -3,24 +3,28 @@ import TinderCard from "../Card/Card";
 import InfoCard from "../Card/CardInfo";
 import Match from "../Match/Match";
 import api from "../../services/api";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import Cookies from "js-cookie";
 import { UserContext } from "../../context/UserContext";
+
 function Index() {
   const [showCard, setShowCard] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
   const [isFlipped, setIsFlipped] = React.useState(false);
   const [cachorros, setCachorros] = React.useState([]);
   const [loadingLike, setLoadingLike] = React.useState(false);
+  const [fimDaLista, setFimDaLista] = React.useState(false);
   const [index, setIndex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
 
   const { user, setUser } = React.useContext(UserContext);
-
   const animalId = Cookies.get("idanimal");
 
   const handleChangeIndex = () => {
+    if (index == 0) {
+      return setFimDaLista(true);
+    }
     if (index > 0) {
       setIndex(index - 1);
     }
@@ -38,7 +42,7 @@ function Index() {
       });
 
       if (response.status == 201) {
-        setOpen(true);
+        return setOpen(true);
       }
       handleChangeIndex();
       return response;
@@ -72,12 +76,12 @@ function Index() {
   }, []);
 
   function FiltrarListagem(lista) {
-    if (user.profile != null) {
-      const listaCurtidas = user.profile.curtida;
+    if (user.animal != null) {
+      const listaCurtidas = user.animal.curtida;
       const idsCurtidas = new Set(
         listaCurtidas.map((curta) => curta.destinoId)
       );
-      idsCurtidas.add(user.profile.id);
+      idsCurtidas.add(user.animal.id);
       const listaAnimaisFiltrada = lista.filter(
         (animal) => !idsCurtidas.has(animal.id)
       );
@@ -101,13 +105,19 @@ function Index() {
     }
   };
 
-  const img =
-    "https://s2-casaejardim.glbimg.com/C9xbzBCFi6q_jWnb7pvArghYREQ=/0x0:620x406/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/H/S/dOjOeVROCN7L82fXV8bQ/japones-que-gastou-r-76-mil-para-se-tornar-um-cachorro-tem-dificuldade-para-fazer-amizade-com-caes-de-verdade1.jpeg";
-
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
     setShowCard(!showCard);
   };
+
+  if (fimDaLista)
+    return (
+      <>
+        <Typography>Acabaram os cachorros...</Typography>
+        <Typography>Volte mais tarde!</Typography>
+      </>
+    );
+
   return (
     <div className="card-container">
       {loading ? (
@@ -119,24 +129,20 @@ function Index() {
               <div className={`card-inner ${showCard ? "front" : "back"}`}>
                 {showCard ? (
                   <TinderCard
-                    images={[
-                      cachorros[index].foto == "https.semfoto"
-                        ? img
-                        : cachorros[index].foto,
-                    ]}
                     onLike={handleLike}
                     onDislike={handleDislike}
                     setCard={handleFlip}
                     nome={cachorros[index].nome}
                     raca={cachorros[index].raca?.nomeRaca}
+                    foto={cachorros[index].foto}
+                    listaFotos={
+                      cachorros[index].imagems == null
+                        ? []
+                        : cachorros[index].imagems
+                    }
                   />
                 ) : (
                   <InfoCard
-                    images={[
-                      cachorros[index].foto == "https.semfoto"
-                        ? img
-                        : cachorros[index].foto,
-                    ]}
                     nome={cachorros[index].nome}
                     idade={dayjs().diff(
                       dayjs(cachorros[index].dataNascimento),
@@ -147,13 +153,21 @@ function Index() {
                     cidade="Araxá"
                     setCard={handleFlip}
                     estado="MG"
+                    foto={cachorros[index].foto}
+                    listaFotos={
+                      cachorros[index].imagems == null
+                        ? []
+                        : cachorros[index].imagems
+                    }
                   />
                 )}
                 {/*trocar para 1 foto de cada cachorro*/}
                 <Match
+                  nome={cachorros[index].nome}
                   img={cachorros[index].foto}
                   open={open}
                   setOpen={setOpen}
+                  handleChangeIndex={handleChangeIndex}
                 />
               </div>
             </div>

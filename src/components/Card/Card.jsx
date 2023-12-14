@@ -9,7 +9,21 @@ import { Box, Divider, Typography } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { grey } from "@mui/material/colors";
 
-const TinderCard = ({ images, onLike, onDislike, setCard, nome, raca }) => {
+const TinderCard = ({
+  images,
+  onLike,
+  onDislike,
+  setCard,
+  nome,
+  raca,
+  foto,
+  listaFotos,
+}) => {
+  let fotos = listaFotos.map((image) => {
+    return image.url;
+  });
+  fotos.unshift(foto);
+
   return (
     <Card
       sx={{
@@ -24,7 +38,7 @@ const TinderCard = ({ images, onLike, onDislike, setCard, nome, raca }) => {
       }}
       elevation={10}
     >
-      <Slider images={images} />
+      <Slider images={fotos} />
       <Box
         sx={{ mt: 1, ml: 2, cursor: "pointer" }}
         onClick={() => {

@@ -8,8 +8,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
+import "./match.css";
 
-export default function Match({ img, open, setOpen }) {
+export default function Match({ img, open, setOpen, nome, handleChangeIndex }) {
   const navigate = useNavigate();
 
   const handleClickOpen = () => {
@@ -17,6 +18,7 @@ export default function Match({ img, open, setOpen }) {
   };
 
   const handleClose = () => {
+    handleChangeIndex();
     setOpen(false);
   };
 
@@ -33,6 +35,9 @@ export default function Match({ img, open, setOpen }) {
         fullWidth={true}
         maxWidth={"sm"}
         open={open}
+        sx={{
+          animation: "fadeIn 1s forwards;",
+        }}
         onClose={handleClose}
       >
         <DialogTitle textAlign="center" color="error" fontWeight={700}>
@@ -58,7 +63,7 @@ export default function Match({ img, open, setOpen }) {
             color="primary"
             mt={2}
           >
-            Você deu match com {"NOME"}, envie uma mensagem!
+            Você deu match com {nome},<br /> envie uma mensagem!
           </DialogContentText>
         </DialogContent>
         <DialogActions>

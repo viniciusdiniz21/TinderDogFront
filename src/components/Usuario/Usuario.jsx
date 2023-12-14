@@ -41,8 +41,9 @@ const Usuario = () => {
         title: "Pronto!",
         text: "Usuario Cadastrado",
         icon: "success",
+      }).then(() => {
+        navigate("../login");
       });
-      navigate("../login");
       setFormValues({
         nome: "",
         senha: "",

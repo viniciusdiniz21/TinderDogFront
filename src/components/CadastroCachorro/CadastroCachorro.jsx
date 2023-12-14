@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 const CadastroCachorro = () => {
   const [crop, setCrop] = useState({
@@ -180,8 +181,9 @@ const CadastroCachorro = () => {
         title: "Pronto!",
         text: "Cadastrado com sucesso.",
         icon: "success",
+      }).then(() => {
+        navigate("../");
       });
-      navigate("../");
       return response;
     } catch (err) {
       Swal.fire({
@@ -220,7 +222,11 @@ const CadastroCachorro = () => {
           }}
           onSubmit={handleSubmit}
         >
-          <img src={logo} style={{ width: "100px" }} />
+          <img
+            src={logo}
+            style={{ width: "100px", cursor: "pointer" }}
+            onClick={() => navigate("../")}
+          />
           <Typography variant="h6">Cadastrar Animal</Typography>
           <TextField
             label="Nome"

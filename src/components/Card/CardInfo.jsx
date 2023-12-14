@@ -19,8 +19,14 @@ const InfoCard = ({
   estado,
   images,
   setCard,
+  foto,
+  listaFotos,
 }) => {
   const theme = useTheme();
+  let fotos = listaFotos.map((image) => {
+    return image.url;
+  });
+  fotos.unshift(foto);
 
   return (
     <Card
@@ -41,7 +47,7 @@ const InfoCard = ({
       }}
       elevation={10}
     >
-      <Slider images={images} />
+      <Slider images={fotos} />
       <CardContent
         sx={{
           display: "flex",

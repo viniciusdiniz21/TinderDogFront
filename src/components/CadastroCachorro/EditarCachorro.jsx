@@ -11,9 +11,12 @@ import {
   Box,
   CircularProgress,
   Typography,
+  Avatar,
+  Tooltip,
 } from "@mui/material";
 import logo from "../../assets/logo.png";
 import { PhotoCamera } from "@mui/icons-material";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { ReactCrop } from "react-image-crop";
 import {
   getStorage,
@@ -26,20 +29,13 @@ import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { UserContext } from "../../context/UserContext";
+import Swal from "sweetalert2";
 
 const EditarCachorro = () => {
   const { user, setUser } = React.useContext(UserContext);
-  const [crop, setCrop] = useState({
-    unit: "%",
-    x: 25,
-    y: 25,
-    width: 50,
-    height: 50,
-    aspect: 1,
-    locked: true,
-  });
-  const [completedCrop, setCompletedCrop] = useState();
+
   const [formValues, setFormValues] = useState(user.animal);
+  const [file, setFile] = useState(null);
 
   const [racas, setRacas] = React.useState([]);
   const [portes, setPortes] = React.useState([]);
@@ -70,8 +66,6 @@ const EditarCachorro = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({
@@ -83,47 +77,7 @@ const EditarCachorro = () => {
   const db = getStorage(app);
 
   const handleFotoChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      setFormValues({
-        ...formValues,
-        foto: file,
-        fotoURL: reader.result, // Armazena a URL da imagem
-      });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleImage = (cropDetails) => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    var img = new Image();
-    img.src = formValues.fotoURL;
-
-    canvas.width = cropDetails.width;
-    canvas.height = cropDetails.height;
-
-    ctx.drawImage(
-      img, // Sua imagem original
-      cropDetails.x,
-      cropDetails.y,
-      cropDetails.width,
-      cropDetails.height,
-      0,
-      0,
-      cropDetails.width,
-      cropDetails.height
-    );
-
-    canvas.toBlob((blob) => {
-      // 'blob' é o objeto Blob que representa a imagem cortada
-      // Você pode criar um novo arquivo usando este blob
-      const file = new File([blob], "cortada.jpg", { type: "image/jpeg" });
-      uploadImageAndGetURL(file, file.lastModified);
-    }, "image/jpeg");
+    setFile(event.target.files[0]);
   };
 
   const uploadImageAndGetURL = (file, id) => {
@@ -147,37 +101,50 @@ const EditarCachorro = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFormValues({
-            ...formValues,
-            foto: downloadURL,
-          });
-          handleCadastro(downloadURL);
+          handleSaveImg(downloadURL);
         });
       }
     );
   };
 
-  const handleCadastro = async (imgUrl) => {
+  const handleSaveImg = async (fotoUrl) => {
+    setLoading(true);
+    try {
+      const response = await api.post(`/Imagem`, {
+        animalId: user.animal.id,
+        url: fotoUrl,
+      });
+
+      setLoading(false);
+      Swal.fire({
+        title: "Pronto!",
+        text: "Imagem salva.",
+        icon: "success",
+      }).then(() => {
+        setFile(null);
+      });
+      return response;
+    } catch (err) {
+      Swal.fire({
+        title: "Erro!",
+        text: "Erro ao salvar imagem.",
+        icon: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+    setLoading(false);
+  };
+  const handleEdit = async () => {
     let id = Cookies.get("id");
     setLoading(true);
     try {
-      const response = await api.put(
-        `/Animal` /* {
-        nome: formValues.nome,
-        foto: imgUrl,
-        porteId: formValues.porteId,
-        racaId: formValues.racaId,
-        usuarioId: id,
-        curtida: [],
-        ativo: true,
-      } */
-      );
+      const response = await api.put(`/Animal`, formValues);
       Swal.fire({
         title: "Pronto!",
         text: "Cadastro editado.",
         icon: "success",
       });
-      navigate("../");
       return response;
     } catch (err) {
       Swal.fire({
@@ -188,11 +155,10 @@ const EditarCachorro = () => {
     }
     setLoading(false);
   };
-
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleImage(completedCrop, formValues.foto);
-    /* handleCadastro(); */
+    handleEdit();
   };
 
   return (
@@ -216,8 +182,42 @@ const EditarCachorro = () => {
           }}
           onSubmit={handleSubmit}
         >
-          <img src={logo} style={{ width: "100px" }} />
+          <img
+            src={logo}
+            style={{ width: "100px", cursor: "pointer" }}
+            onClick={() => navigate("../")}
+          />
           <Typography variant="h6">Editar Animal</Typography>
+          <Box></Box>
+          <label htmlFor="upload-button">
+            <input
+              style={{ display: "none" }}
+              accept="image/*"
+              id="upload-button"
+              type="file"
+              onChange={handleFotoChange}
+            />
+            <Tooltip arrow title="Adicionar mais imagens">
+              <Avatar
+                src=""
+                style={{ width: 64, height: 64, cursor: "pointer" }}
+              >
+                <AddAPhotoIcon />
+              </Avatar>
+            </Tooltip>
+          </label>
+          {file != null && (
+            <Button
+              variant="contained"
+              component="span"
+              startIcon={<PhotoCamera />}
+              color="success"
+              onClick={() => uploadImageAndGetURL(file, file.name)}
+            >
+              Adicionar
+              <br /> Foto
+            </Button>
+          )}
           <TextField
             label="Nome"
             name="nome"
@@ -255,37 +255,7 @@ const EditarCachorro = () => {
               })}
             </Select>
           </FormControl>
-          <Box sx={{ maxWidth: "80%" }}>
-            {formValues.fotoURL != null && (
-              <ReactCrop
-                crop={crop}
-                onChange={(c) => setCrop(c)}
-                onComplete={(c) => setCompletedCrop(c)}
-                aspect={1}
-                maxHeight={300}
-                maxWidth={300}
-              >
-                <img style={{ maxWidth: "100%" }} src={formValues.fotoURL} />
-              </ReactCrop>
-            )}
-          </Box>
-          <label htmlFor="upload-button">
-            <input
-              style={{ display: "none" }}
-              accept="image/*"
-              id="upload-button"
-              type="file"
-              onChange={handleFotoChange}
-            />
-            <Button
-              variant="contained"
-              component="span"
-              startIcon={<PhotoCamera />}
-              color="secondary"
-            >
-              Escolher foto
-            </Button>
-          </label>
+
           <Button
             type="submit"
             variant="contained"

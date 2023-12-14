@@ -74,7 +74,7 @@ export const Login = () => {
         id: response.data.id,
         nome: response.data.nome,
         token: response.data.token,
-        profile: response.data.animal,
+        animal: response.data.animal,
       });
 
       if (response.data.animal == null) {

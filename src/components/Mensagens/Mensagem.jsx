@@ -63,6 +63,7 @@ const Mensagem = ({ nome, foto, mensagens, matchId, idCachorro }) => {
       ativo: true,
     };
     msgs.push(obj);
+    setMensagem("");
     try {
       const response = await api.post(`/Mensagem`, obj);
       return response;

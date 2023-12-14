@@ -10,6 +10,7 @@ import {
 import logo from "../../assets/logo.png";
 import api from "../../services/api";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Raca = () => {
   const [loading, setLoading] = React.useState(false);
@@ -26,6 +27,8 @@ const Raca = () => {
       [name]: value,
     });
   };
+
+  const navigate = useNavigate();
 
   const handleCadastro = async () => {
     setLoading(true);
@@ -85,7 +88,11 @@ const Raca = () => {
           }}
           onSubmit={handleSubmit}
         >
-          <img src={logo} style={{ width: "100px" }} />
+          <img
+            src={logo}
+            style={{ width: "100px", cursor: "pointer" }}
+            onClick={() => navigate("../")}
+          />
           <Typography variant="h6">Cadastrar Animal</Typography>
           <TextField
             label="Nome"
