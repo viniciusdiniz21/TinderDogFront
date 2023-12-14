@@ -18,12 +18,14 @@ import logo from "../../assets/logo.png";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { UserContext } from "../../context/UserContext";
 
 const drawerWidth = 240;
 
 export default function Header(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { user, setUser } = React.useContext(UserContext);
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -52,7 +54,13 @@ export default function Header(props) {
       <List>
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => navigate("/cadastrar")}
+            onClick={() =>
+              navigate(
+                user.animal == null || user.animal == undefined
+                  ? "/cadastrar"
+                  : "/editar"
+              )
+            }
             sx={{ textAlign: "center" }}
           >
             <ListItemIcon>

@@ -22,13 +22,13 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "../../services/firebaseConfig";
-import { UserContext } from "../../context/UserContext";
-import dayjs from "dayjs";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { UserContext } from "../../context/UserContext";
 
-const CadastroCachorro = () => {
+const EditarCachorro = () => {
+  const { user, setUser } = React.useContext(UserContext);
   const [crop, setCrop] = useState({
     unit: "%",
     x: 25,
@@ -39,13 +39,7 @@ const CadastroCachorro = () => {
     locked: true,
   });
   const [completedCrop, setCompletedCrop] = useState();
-  const [formValues, setFormValues] = useState({
-    nome: "",
-    racaId: null,
-    porteId: null,
-    foto: null,
-    fotoURL: null,
-  });
+  const [formValues, setFormValues] = useState(user.animal);
 
   const [racas, setRacas] = React.useState([]);
   const [portes, setPortes] = React.useState([]);
@@ -167,7 +161,8 @@ const CadastroCachorro = () => {
     let id = Cookies.get("id");
     setLoading(true);
     try {
-      const response = await api.post(`/Animal`, {
+      const response = await api.put(
+        `/Animal` /* {
         nome: formValues.nome,
         foto: imgUrl,
         porteId: formValues.porteId,
@@ -175,10 +170,11 @@ const CadastroCachorro = () => {
         usuarioId: id,
         curtida: [],
         ativo: true,
-      });
+      } */
+      );
       Swal.fire({
         title: "Pronto!",
-        text: "Cadastrado com sucesso.",
+        text: "Cadastro editado.",
         icon: "success",
       });
       navigate("../");
@@ -221,7 +217,7 @@ const CadastroCachorro = () => {
           onSubmit={handleSubmit}
         >
           <img src={logo} style={{ width: "100px" }} />
-          <Typography variant="h6">Cadastrar Animal</Typography>
+          <Typography variant="h6">Editar Animal</Typography>
           <TextField
             label="Nome"
             name="nome"
@@ -298,7 +294,7 @@ const CadastroCachorro = () => {
             disabled={loading}
             style={{ marginTop: "1rem" }}
           >
-            {loading ? <CircularProgress /> : "Cadastrar"}
+            {loading ? <CircularProgress /> : "Editar"}
           </Button>
         </form>
       </Paper>
@@ -306,4 +302,4 @@ const CadastroCachorro = () => {
   );
 };
 
-export default CadastroCachorro;
+export default EditarCachorro;

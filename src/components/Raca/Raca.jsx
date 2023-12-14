@@ -1,11 +1,7 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Container,
   Paper,
   CircularProgress,
@@ -13,6 +9,7 @@ import {
 } from "@mui/material";
 import logo from "../../assets/logo.png";
 import api from "../../services/api";
+import Swal from "sweetalert2";
 
 const Raca = () => {
   const [loading, setLoading] = React.useState(false);
@@ -39,7 +36,12 @@ const Raca = () => {
         porte: formValues.porte,
         ativo: true,
       });
-      alert("Cadastrado com sucesso");
+      Swal.fire({
+        title: "Pronto!",
+        text: "Raça cadastrada.",
+        icon: "success",
+      });
+
       setFormValues({
         nomeRaca: "",
         tamanho: "",
@@ -48,7 +50,11 @@ const Raca = () => {
       });
       return response;
     } catch (err) {
-      alert("Erro no cadastro");
+      Swal.fire({
+        title: "error",
+        text: "Erro ao cadastrar raça.",
+        icon: "error",
+      });
     }
     setLoading(false);
   };

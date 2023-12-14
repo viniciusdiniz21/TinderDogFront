@@ -1,11 +1,7 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Container,
   Paper,
   CircularProgress,
@@ -13,6 +9,7 @@ import {
 import logo from "../../assets/logo.png";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Usuario = () => {
   const [loading, setLoading] = React.useState(false);
@@ -40,7 +37,11 @@ const Usuario = () => {
         token: formValues.token,
         ativo: true,
       });
-      alert("Cadastrado com sucesso");
+      Swal.fire({
+        title: "Pronto!",
+        text: "Usuario Cadastrado",
+        icon: "success",
+      });
       navigate("../login");
       setFormValues({
         nome: "",
@@ -51,7 +52,11 @@ const Usuario = () => {
       navigate;
       return response;
     } catch (err) {
-      alert("Erro no cadastro");
+      Swal.fire({
+        title: "Erro!",
+        text: "Erro ao cadastrar usuario.",
+        icon: "error",
+      });
     }
     setLoading(false);
   };

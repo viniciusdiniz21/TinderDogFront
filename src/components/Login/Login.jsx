@@ -18,6 +18,7 @@ import api from "../../services/api";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const classes = {
   root: {
@@ -54,15 +55,6 @@ export const Login = () => {
   const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
-  /*   const authenticate = useLoaderData();
-
-
-  React.useEffect(() => {
-    if (authenticate) {
-      navigate("/");
-      window.location.reload();
-    }
-  }, [authenticate]); */
 
   const handleUser = async (e) => {
     e.preventDefault();
@@ -76,7 +68,7 @@ export const Login = () => {
       Cookies.set("access_token", response.data.token);
       Cookies.set("id", response.data.id);
       Cookies.set("nome", response.data.nome);
-      console.log(response.data);
+      localStorage.setItem("animal", JSON.stringify(response.data));
       setUser({
         ...user,
         id: response.data.id,
@@ -94,7 +86,11 @@ export const Login = () => {
       return response;
     } catch (err) {
       console.log(err);
-      alert("Erro ao fazer login");
+      Swal.fire({
+        title: "Erro!",
+        text: "Erro ao fazer login.",
+        icon: "error",
+      });
     }
     setLoading(false);
   };
