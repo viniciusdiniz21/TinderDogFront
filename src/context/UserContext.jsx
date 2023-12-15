@@ -12,7 +12,7 @@ const UserProvider = ({ children }) => {
     nome: Cookies.get("nome"),
     token: Cookies.get("token"),
     animalid: Cookies.get("idanimal"),
-    animal: animal.animal,
+    animal: animal,
   });
 
   return (

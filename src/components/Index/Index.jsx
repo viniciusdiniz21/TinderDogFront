@@ -76,12 +76,13 @@ function Index() {
   }, []);
 
   function FiltrarListagem(lista) {
+    console.log(lista);
     if (user.animal != null) {
-      const listaCurtidas = user.animal.curtida;
+      const listaCurtidas = user.animal?.curtida;
       const idsCurtidas = new Set(
         listaCurtidas.map((curta) => curta.destinoId)
       );
-      idsCurtidas.add(user.animal.id);
+      idsCurtidas.add(user.animal?.id);
       const listaAnimaisFiltrada = lista.filter(
         (animal) => !idsCurtidas.has(animal.id)
       );
@@ -110,7 +111,7 @@ function Index() {
     setShowCard(!showCard);
   };
 
-  if (fimDaLista)
+  if (fimDaLista || cachorros.length == 0)
     return (
       <>
         <Typography>Acabaram os cachorros...</Typography>

@@ -68,7 +68,7 @@ export const Login = () => {
       Cookies.set("access_token", response.data.token);
       Cookies.set("id", response.data.id);
       Cookies.set("nome", response.data.nome);
-      localStorage.setItem("animal", JSON.stringify(response.data));
+      localStorage.setItem("animal", JSON.stringify(response.data.animal));
       setUser({
         ...user,
         id: response.data.id,

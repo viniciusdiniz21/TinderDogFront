@@ -13,7 +13,7 @@ const ContentContainer = styled("div")({
 });
 
 const Mensagens = () => {
-  const [conversaSelecionada, setConversaSelecionada] = React.useState(null);
+  const [conversaSelecionada, setConversaSelecionada] = React.useState(0);
 
   const [match, setMatch] = React.useState([]);
   const [animaisMatch, setAnimaisMatch] = React.useState([]);
@@ -31,7 +31,7 @@ const Mensagens = () => {
     // Função principal que combina matches com animais
     const listaCombinada = matches.map((match) => {
       const outroAnimal =
-        user.profile.id == match.cachorro1
+        user.animal?.id == match.cachorro1
           ? obterAnimalPorId(match.cachorro2)
           : obterAnimalPorId(match.cachorro1);
 
@@ -62,7 +62,7 @@ const Mensagens = () => {
       const response = await api.get("Match");
       const matchs = response.data.filter(
         (mat) =>
-          mat.cachorro1 == user.profile.id || mat.cachorro2 == user.profile.id
+          mat.cachorro1 == user.animal?.id || mat.cachorro2 == user.animal?.id
       );
       setMatch(matchs);
       return response;

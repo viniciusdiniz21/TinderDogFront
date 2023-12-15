@@ -77,6 +77,8 @@ const CadastroCachorro = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const { user, setUser } = React.useContext(UserContext);
+
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -182,6 +184,13 @@ const CadastroCachorro = () => {
         text: "Cadastrado com sucesso.",
         icon: "success",
       }).then(() => {
+        Cookies.set("idanimal", response.data.id);
+        setUser({
+          ...user,
+          animalId: response.data.id,
+          animal: response.data,
+        });
+        localStorage.setItem("animal", JSON.stringify(response.data));
         navigate("../");
       });
       return response;

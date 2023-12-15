@@ -28,6 +28,7 @@ export default function Header(props) {
   const { user, setUser } = React.useContext(UserContext);
   const theme = useTheme();
   const navigate = useNavigate();
+  console.log(user);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
